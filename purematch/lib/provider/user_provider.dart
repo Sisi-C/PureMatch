@@ -25,7 +25,7 @@ class UserProvider with ChangeNotifier {
     // );
     // final usersJson = json.decode(response.body)['users'];
 
-    final response = await rootBundle.loadString('users.json');
+    final response = await rootBundle.loadString('assets/user/users.json');
     final usersJson = json.decode(response)['users'];
 
     return usersJson.map<User>((json) {

@@ -38,12 +38,12 @@ class _AddUserPageState extends State<AddUserPage> {
 
   void selectUser(User user) {
     final isSelected = selectedUsers.contains(user);
-    setState(() => {
+    setState(() {
           if (isSelected)
-            selectedUsers.remove(user)
+            selectedUsers.remove(user);
           else
-            selectedUsers = [...selectedUsers, user],
-          isAddEnabled = selectedUsers.isNotEmpty
+            selectedUsers = [...selectedUsers, user];
+          isAddEnabled = selectedUsers.isNotEmpty;
         });
   }
 
@@ -116,7 +116,7 @@ class _AddUserPageState extends State<AddUserPage> {
             icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
           )),
-      title: const Text('Add Admin'),
+      title: const Text('Add Admin', style: TextStyle(color: Colors.white)),
       centerTitle: true,
       backgroundColor: const Color.fromRGBO(23, 23, 23, 1),
       elevation: 0,

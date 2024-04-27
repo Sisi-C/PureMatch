@@ -14,7 +14,7 @@ class PhotoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Photo Url from API doesn't work
     int num = id % 18 + 1;
-    String randomDefaultPhoto = 'profile_pic/$num.jpg';
+    String randomDefaultPhoto = 'assets/profile_pic/$num.jpg';
 
     return CircleAvatar(
         radius: 30.0,
