@@ -79,25 +79,33 @@ class _AddUserPageState extends State<AddUserPage> {
     final users = allUsers.where(containsSearchText).toList();
 
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(130), child: buildAppBar()),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: ListView(
-              children: users.map((user) {
-                final isSelected = selectedUsers.contains(user);
-                return UserListTileWidget(
-                  user: user,
-                  isSelected: isSelected,
-                  onSelectedUser: selectUser,
-                );
-              }).toList(),
-            ),
-          )
-        ],
-      ),
-    );
+        appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(130), child: buildAppBar()),
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              child: ListView(
+                children: users.map((user) {
+                  final isSelected = selectedUsers.contains(user);
+                  return UserListTileWidget(
+                    user: user,
+                    isSelected: isSelected,
+                    onSelectedUser: selectUser,
+                  );
+                }).toList(),
+              ),
+            )
+          ],
+        ),
+        bottomNavigationBar: NavigationBar(
+          backgroundColor: Colors.black,
+          destinations: const <Widget>[
+            Icon(Icons.people_alt_outlined, size: 30, color: Colors.white),
+            Icon(Icons.do_not_disturb, size: 30, color: Colors.white54),
+            Icon(Icons.messenger_sharp, size: 30, color: Colors.white54),
+            Icon(Icons.check_circle_outline_outlined, size: 30, color: Colors.white54)
+          ],
+        ));
   }
 
   Widget buildAppBar() {
