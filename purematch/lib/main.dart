@@ -1,20 +1,38 @@
+import 'package:purematch/page/add_user_page.dart';
+import 'package:purematch/provider/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-void main() {
-  runApp(const MainApp());
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
+  runApp(App());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class App extends StatelessWidget {
+  final ThemeData theme = ThemeData(
+      // brightness: Brightness.dark,
+      scaffoldBackgroundColor: const Color.fromRGBO(44, 45, 48, 1),
+      textTheme: GoogleFonts.didactGothicTextTheme(),
+      cardTheme: const CardTheme(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.zero,
+        )
+      ));
 
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+        create: (context) => UserProvider(),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: theme,
+          home: const AddUserPage(),
         ),
-      ),
-    );
-  }
+      );
 }
