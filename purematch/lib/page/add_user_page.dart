@@ -6,28 +6,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AddUserPage extends StatefulWidget {
-  final bool isMultiSelection;
   final List<User> users;
 
   const AddUserPage({
     Key? key,
-    this.isMultiSelection = false,
     this.users = const [],
   }) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _AddUserPageState createState() => _AddUserPageState();
 }
 
 class _AddUserPageState extends State<AddUserPage> {
   String text = '';
   List<User> selectedUsers = [];
+  bool isAddEnabled = false;
 
   @override
   void initState() {
     super.initState();
-
     selectedUsers = widget.users;
   }
 
@@ -38,6 +35,42 @@ class _AddUserPageState extends State<AddUserPage> {
 
     return userLower.contains(textLower);
   }
+
+  void selectUser(User user) {
+    final isSelected = selectedUsers.contains(user);
+    setState(() => {
+          if (isSelected)
+            selectedUsers.remove(user)
+          else
+            selectedUsers = [...selectedUsers, user],
+          isAddEnabled = selectedUsers.isNotEmpty
+        });
+  }
+
+  showAlertDialog(BuildContext context) {
+    Widget close = TextButton(
+      child: const Text('Close'),
+      onPressed: () => Navigator.of(context).pop(),
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: const Text('Admins Added'),
+      content: Text(
+          '${selectedUsers.map((e) => e.name).join(', ')} have been added as admins.'),
+      actions: [
+        close,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void addUser() => showAlertDialog(context);
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +116,11 @@ class _AddUserPageState extends State<AddUserPage> {
         Padding(
             padding: const EdgeInsets.only(right: 16.0),
             child: TextButton(
-              onPressed: () {},
-              child: const Text("Add",
-                  style: TextStyle(color: Colors.white, fontSize: 18)),
+              onPressed: isAddEnabled ? addUser : null,
+              child: Text('Add',
+                  style: TextStyle(
+                      color: isAddEnabled ? Colors.white : Colors.white54,
+                      fontSize: 18)),
             )),
       ],
       bottom: PreferredSize(
@@ -98,15 +133,4 @@ class _AddUserPageState extends State<AddUserPage> {
       ),
     );
   }
-
-  void selectUser(User user) {
-    if (widget.isMultiSelection) {
-      final isSelected = selectedUsers.contains(user);
-      setState(() =>
-          isSelected ? selectedUsers.remove(user) : selectedUsers.add(user));
-    } else {
-      Navigator.pop(context, user);
-    }
-  }
-
 }

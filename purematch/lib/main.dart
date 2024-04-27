@@ -17,7 +17,6 @@ Future main() async {
 
 class App extends StatelessWidget {
   final ThemeData theme = ThemeData(
-      // brightness: Brightness.dark,
       scaffoldBackgroundColor: const Color.fromRGBO(44, 45, 48, 1),
       textTheme: GoogleFonts.didactGothicTextTheme(),
       cardTheme: const CardTheme(
