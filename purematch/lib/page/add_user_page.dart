@@ -39,26 +39,32 @@ class _AddUserPageState extends State<AddUserPage> {
   void selectUser(User user) {
     final isSelected = selectedUsers.contains(user);
     setState(() {
-          if (isSelected)
-            selectedUsers.remove(user);
-          else
-            selectedUsers = [...selectedUsers, user];
-          isAddEnabled = selectedUsers.isNotEmpty;
-        });
+      if (isSelected)
+        selectedUsers.remove(user);
+      else
+        selectedUsers = [...selectedUsers, user];
+      isAddEnabled = selectedUsers.isNotEmpty;
+    });
   }
 
   showAlertDialog(BuildContext context) {
     Widget close = TextButton(
-      child: const Text('Close'),
+      child: const Text('Close' , style: TextStyle(fontSize: 20),),
       onPressed: () => Navigator.of(context).pop(),
     );
 
     AlertDialog alert = AlertDialog(
-      title: const Text('Admins Added'),
+      title: const Text('Admins Added',
+          style: TextStyle(fontSize: 20,), textAlign: TextAlign.center),
       content: Text(
-          '${selectedUsers.map((e) => e.name).join(', ')} have been added as admins.'),
+          '${selectedUsers.map((e) => e.name).join(', ')} have been added as admins.',
+          style: TextStyle(fontSize: 16),
+          textAlign: TextAlign.center),
       actions: [
-        close,
+        Expanded(
+            child: Center(
+          child: close,
+        ))
       ],
     );
 

@@ -22,8 +22,8 @@ class _SearchWidgetState extends State<SearchWidget> {
 
   @override
   Widget build(BuildContext context) {
-    const styleActive = TextStyle(color: Color.fromRGBO(230, 230, 230, 1));
-    const styleHint = TextStyle(color: Colors.white70);
+    const styleActive = TextStyle(color: Color.fromRGBO(230, 230, 230, 1), fontSize: 20,height: 1);
+    const styleHint = TextStyle(color: Colors.white70, fontSize: 20,height: 1);
     final style = widget.text.isEmpty ? styleHint : styleActive;
 
     return Container(
@@ -38,7 +38,7 @@ class _SearchWidgetState extends State<SearchWidget> {
           child: TextField(
             controller: controller,
             decoration: InputDecoration(
-              icon: Icon(Icons.search, color: style.color),
+              prefixIcon: Icon(Icons.search, color: style.color),
               hintText: widget.hintText,
               hintStyle: style,
               border: InputBorder.none,
