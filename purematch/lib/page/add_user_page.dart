@@ -21,6 +21,7 @@ class _AddUserPageState extends State<AddUserPage> {
   String text = '';
   List<User> selectedUsers = [];
   bool isAddEnabled = false;
+  bool _searchBoolean = false;
 
   @override
   void initState() {
@@ -49,13 +50,19 @@ class _AddUserPageState extends State<AddUserPage> {
 
   showAlertDialog(BuildContext context) {
     Widget close = TextButton(
-      child: const Text('Close' , style: TextStyle(fontSize: 20),),
+      child: const Text(
+        'Close',
+        style: TextStyle(fontSize: 20),
+      ),
       onPressed: () => Navigator.of(context).pop(),
     );
 
     AlertDialog alert = AlertDialog(
       title: const Text('Admins Added',
-          style: TextStyle(fontSize: 20,), textAlign: TextAlign.center),
+          style: TextStyle(
+            fontSize: 20,
+          ),
+          textAlign: TextAlign.center),
       content: Text(
           '${selectedUsers.map((e) => e.name).join(', ')} have been added as admins.',
           style: TextStyle(fontSize: 16),
@@ -85,8 +92,39 @@ class _AddUserPageState extends State<AddUserPage> {
     final users = allUsers.where(containsSearchText).toList();
 
     return Scaffold(
-        appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(130), child: buildAppBar()),
+        appBar: AppBar(
+          leading: Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: !_searchBoolean
+                  ? IconButton(
+                      icon: Icon(Icons.search, color: Colors.white),
+                      onPressed: () {
+                        setState(() {
+                          _searchBoolean = true;
+                        });
+                      },
+                    )
+                  : IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios_new,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _searchBoolean = false;
+                        });
+                      },
+                    )),
+          backgroundColor: const Color.fromRGBO(23, 23, 23, 1),
+          title: !_searchBoolean
+              ? Text('Users', style: TextStyle(color: Colors.white))
+              : SearchWidget(
+                  text: text,
+                  onChanged: (text) => setState(() => this.text = text),
+                  hintText: 'Search for a user',
+                ),
+          centerTitle: true,
+        ),
         body: Column(
           children: <Widget>[
             Expanded(
@@ -109,7 +147,8 @@ class _AddUserPageState extends State<AddUserPage> {
             Icon(Icons.people_alt_outlined, size: 30, color: Colors.white),
             Icon(Icons.do_not_disturb, size: 30, color: Colors.white54),
             Icon(Icons.messenger_sharp, size: 30, color: Colors.white54),
-            Icon(Icons.check_circle_outline_outlined, size: 30, color: Colors.white54)
+            Icon(Icons.check_circle_outline_outlined,
+                size: 30, color: Colors.white54)
           ],
         ));
   }
@@ -118,10 +157,18 @@ class _AddUserPageState extends State<AddUserPage> {
     return AppBar(
       leading: Padding(
           padding: const EdgeInsets.only(left: 16.0),
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
-          )),
+          child: !_searchBoolean
+              ? IconButton(
+                  icon: const Icon(Icons.search, color: Colors.white),
+                  onPressed: () {},
+                )
+              : IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {},
+                )),
       title: const Text('Add Admin', style: TextStyle(color: Colors.white)),
       centerTitle: true,
       backgroundColor: const Color.fromRGBO(23, 23, 23, 1),
