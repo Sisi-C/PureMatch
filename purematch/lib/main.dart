@@ -1,4 +1,4 @@
-import 'package:purematch/page/add_user_page.dart';
+import 'package:purematch/page/admin_page.dart';
 import 'package:purematch/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,7 +31,7 @@ class App extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: theme,
-          home: const AddUserPage(),
+          home: const AdminPage(),
         ),
       );
 }

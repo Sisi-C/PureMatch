@@ -1,23 +1,23 @@
 import 'package:purematch/model/user.dart';
 import 'package:purematch/provider/user_provider.dart';
-import 'package:purematch/widget/user_listtile_widget.dart';
+import 'package:purematch/widget/admin_listtile_widget.dart';
 import 'package:purematch/widget/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AddUserPage extends StatefulWidget {
+class AdminPage extends StatefulWidget {
   final List<User> users;
 
-  const AddUserPage({
+  const AdminPage({
     Key? key,
     this.users = const [],
   }) : super(key: key);
 
   @override
-  _AddUserPageState createState() => _AddUserPageState();
+  _AdminPageState createState() => _AdminPageState();
 }
 
-class _AddUserPageState extends State<AddUserPage> {
+class _AdminPageState extends State<AdminPage> {
   String text = '';
   List<User> selectedUsers = [];
   bool isAddEnabled = false;
@@ -65,7 +65,7 @@ class _AddUserPageState extends State<AddUserPage> {
           textAlign: TextAlign.center),
       content: Text(
           '${selectedUsers.map((e) => e.name).join(', ')} have been added as admins.',
-          style: const TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: 16),
           textAlign: TextAlign.center),
       actions: [
         Expanded(
@@ -89,7 +89,9 @@ class _AddUserPageState extends State<AddUserPage> {
   Widget build(BuildContext context) {
     final provider = Provider.of<UserProvider>(context);
     final allUsers = provider.users;
-    final users = allUsers.where(containsSearchText).toList();
+    List<User> users = allUsers.where(containsSearchText).toList();
+    Iterable<User> admin = users.where((user) => user.role == 'Admin');
+    Iterable<User> moderator = users.where((user) => user.role == 'Moderator');
 
     return Scaffold(
         appBar: AppBar(
@@ -127,29 +129,54 @@ class _AddUserPageState extends State<AddUserPage> {
             TextButton(
                 child: const Text(
                   "Edit",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white
-                  ),
+                  style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
                 onPressed: () {})
           ],
           centerTitle: true,
         ),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            const SizedBox(
+              height: 10,
+            ),
+            const Padding(
+                padding: EdgeInsets.only(left: 25),
+                child: Text(
+                  "Admins",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                )),
             Expanded(
               child: ListView(
-                children: users.map((user) {
-                  final isSelected = selectedUsers.contains(user);
-                  return UserListTileWidget(
-                    user: user,
-                    isSelected: isSelected,
-                    onSelectedUser: selectUser,
+                children: admin.map((user) {
+                  return AdminListTileWidget(
+                    admin: user,
                   );
                 }).toList(),
               ),
-            )
+            ),
+            const Padding(
+                padding: EdgeInsets.only(left: 25),
+                child: Text(
+                  "Moderator",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                )),
+            Expanded(
+              child: ListView(
+                children: moderator.map((moderator) {
+                  return AdminListTileWidget(
+                    admin: moderator,
+                  );
+                }).toList(),
+              ),
+            ),
           ],
         ),
         bottomNavigationBar: NavigationBar(
